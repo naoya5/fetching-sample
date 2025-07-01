@@ -1,26 +1,21 @@
 import { SubmitButton } from "@/components/submit";
-import { createProduct } from "../../prisma-db";
-import { redirect } from "next/navigation";
+import { useActionState } from "react";
+import { createProductAction } from "@/actions/product";
 
 export default function AddProductPage() {
-  //action
-  async function createProductAction(formData: FormData) {
-    "use server";
-    const title = formData.get("title") as string;
-    const price = formData.get("price") as string;
-    const description = formData.get("description") as string;
+  //initial state
+  const initialState: FormState = {
+    errors: {},
+  };
 
-    if (!title || !price || !description) {
-      throw new Error("All fields are required");
-    }
-
-    //backend function
-    await createProduct(title, parseInt(price), description);
-    redirect("/product-db");
-  }
+  //state
+  const [state, formAction, isPending] = useActionState(
+    createProductAction,
+    initialState
+  );
 
   return (
-    <form action={createProductAction} className="p-4 space-y-4 max-w-96">
+    <form action={formAction} className="p-4 space-y-4 max-w-96">
       <label htmlFor="title" className="text-bold">
         Title
         <input
@@ -29,6 +24,9 @@ export default function AddProductPage() {
           className="block w-full p-2 text-black border border-gray-300 rounded-md"
         />
       </label>
+      {state.errors.title && (
+        <p className="text-red-500">{state.errors.title}</p>
+      )}
       <label htmlFor="price" className="text-bold">
         Price
         <input
