@@ -1,6 +1,6 @@
 import { SubmitButton } from "@/components/submit";
 import { useActionState } from "react";
-import { createProductAction } from "@/actions/product";
+import { createProductAction, FormState } from "@/actions/product";
 
 export default function AddProductPage() {
   //initial state
@@ -9,10 +9,7 @@ export default function AddProductPage() {
   };
 
   //state
-  const [state, formAction, isPending] = useActionState(
-    createProductAction,
-    initialState
-  );
+  const [state, formAction] = useActionState(createProductAction, initialState);
 
   return (
     <form action={formAction} className="p-4 space-y-4 max-w-96">

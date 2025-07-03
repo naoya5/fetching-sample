@@ -13,7 +13,10 @@ export type FormState = {
 };
 
 //action
-export async function createProductAction(formData: FormData) {
+export async function createProductAction(
+  prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
   const title = formData.get("title") as string;
   const price = formData.get("price") as string;
   const description = formData.get("description") as string;
@@ -33,7 +36,7 @@ export async function createProductAction(formData: FormData) {
   }
 
   if (Object.keys(errors).length > 0) {
-    return errors;
+    return { errors };
   }
 
   //backend function
