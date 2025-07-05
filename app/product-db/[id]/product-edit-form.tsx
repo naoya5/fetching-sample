@@ -2,17 +2,21 @@
 
 import { SubmitButton } from "@/components/submit";
 import { useActionState } from "react";
-import { createProductAction, FormState } from "@/actions/product";
+import { editProductAction, FormState } from "@/actions/product";
+import { Product } from "@/types/product";
 
-export default function AddProductPage() {
+export default function EditProductForm({ product }: { product: Product }) {
   //initial state
   const initialState: FormState = {
     errors: {},
   };
 
+  //bind the id to the editProductAction
+  const editProductWithId = (prevState: FormState, formData: FormData) =>
+    editProductAction(prevState, formData, product.id);
   //state
   const [state, formAction, isPending] = useActionState(
-    createProductAction,
+    editProductWithId,
     initialState
   );
 
@@ -24,6 +28,7 @@ export default function AddProductPage() {
           type="text"
           name="title"
           className="block w-full p-2 text-black border border-gray-300 rounded-md"
+          defaultValue={product.title}
         />
       </label>
       {state.errors.title && (
@@ -35,6 +40,7 @@ export default function AddProductPage() {
           type="number"
           name="price"
           className="block w-full p-2 text-black border border-gray-300 rounded-md"
+          defaultValue={product.price}
         />
       </label>
       {state.errors.price && (
@@ -46,6 +52,7 @@ export default function AddProductPage() {
           type="text"
           name="description"
           className="block w-full p-2 text-black border border-gray-300 rounded-md"
+          defaultValue={product.description ?? ""}
         />
       </label>
       {state.errors.description && (
