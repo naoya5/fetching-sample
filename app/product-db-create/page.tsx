@@ -1,3 +1,5 @@
+"use client";
+
 import { SubmitButton } from "@/components/submit";
 import { useActionState } from "react";
 import { createProductAction, FormState } from "@/actions/product";
@@ -32,6 +34,9 @@ export default function AddProductPage() {
           className="block w-full p-2 text-black border border-gray-300 rounded-md"
         />
       </label>
+      {state.errors.price && (
+        <p className="text-red-500">{state.errors.price}</p>
+      )}
       <label htmlFor="description" className="text-bold">
         Description
         <input
@@ -40,6 +45,9 @@ export default function AddProductPage() {
           className="block w-full p-2 text-black border border-gray-300 rounded-md"
         />
       </label>
+      {state.errors.description && (
+        <p className="text-red-500">{state.errors.description}</p>
+      )}
       <div className="flex justify-end mt-4">
         <SubmitButton />
       </div>

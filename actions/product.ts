@@ -24,15 +24,15 @@ export async function createProductAction(
   const errors: Errors = {};
 
   if (!title) {
-    errors.title = "title is requiered";
+    errors.title = "title is required";
   }
 
   if (!price) {
-    errors.price = "price is requiered";
+    errors.price = "price is required";
   }
 
   if (!description) {
-    errors.description = "description is requiered";
+    errors.description = "description is required";
   }
 
   if (Object.keys(errors).length > 0) {
