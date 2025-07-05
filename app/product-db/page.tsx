@@ -1,3 +1,4 @@
+import { deleteProductAction } from "@/actions/product";
 import { getProducts } from "@/prisma-db";
 import { Product } from "@/types/product";
 import Link from "next/link";
@@ -24,6 +25,22 @@ export default async function ProductsDBPage() {
             <p className="text-lg font-bold text-blue-600">
               ¥{product.price.toLocaleString()}
             </p>
+            <div className="flex gap-2 justify-end">
+              <Link
+                href={`/product-db/${product.id}`}
+                className="bg-blue-500 text-white px-4 py-2 rounded-md mb-2 inline-block text-center"
+              >
+                Edit
+              </Link>
+              <form action={deleteProductAction.bind(null, product.id)}>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-pink-400 text-white rounded-md mb-2"
+                >
+                  Delete
+                </button>
+              </form>
+            </div>
           </div>
         ))}
       </div>
